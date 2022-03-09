@@ -1,11 +1,47 @@
 import 'package:flutter/material.dart';
+import 'question.dart';
+import 'answer.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return new _MyAppState();
+  }
+
+}
+class _MyAppState extends State<MyApp> {
+  var _questionIndex = 0;
+
+  void _answerQuestion(){
+    setState(() {
+      _questionIndex = _questionIndex + 1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var questions = ['가장 좋아하는 색은 무엇인가요?', '가장 좋아하는 동물은 무엇인가요?'];
+    var questions = [
+      {
+        'questionText':'가장 좋아하는 색은 무엇인가요?',
+        'answers':[
+          '빨강','검정','노랑','파랑'
+        ]
+      },
+      {
+        'questionText':'가장 좋아하는 동물은 무엇인가요?',
+        'answers':[
+          '호랑이','말','고양이','돼지'
+        ]
+      },
+      {
+        'questionText':'가장 좋아하는 사람은 누구인가요?',
+        'answers':[
+          '엄마','아빠','배우자','자식'
+        ]
+      },
+    ];
     // TODO: implement build
     return MaterialApp(
       home: Scaffold(
@@ -14,27 +50,10 @@ class MyApp extends StatelessWidget {
           ),
           body: Column(
             children: <Widget>[
-              Text('질문!'),
-              RaisedButton(
-                child: Text('정답 1'),
-                onPressed: null,
-              ),
-              RaisedButton(
-                child: Text('정답 2'),
-                onPressed: null,
-              ),
-              RaisedButton(
-                child: Text('정답 3'),
-                onPressed: null,
-              ),
-              RaisedButton(
-                child: Text('정답 4'),
-                onPressed: null,
-              ),
-              RaisedButton(
-                child: Text('정답 5'),
-                onPressed: null,
-              ),
+              Question(questions[_questionIndex%3]['questionText']),
+              ...(questions[_questionIndex%3]['answers'] as List<String>).map((answer){
+                  return Answer(_answerQuestion,answer);
+              }).toList()
             ],
           )),
     );
